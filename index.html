@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Toyota Hilux Scratch Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0a0a0a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%);
+            padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e94560;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+
+        .card-container {
+            position: relative;
+            width: 340px;
+            height: 220px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 30px rgba(233, 69, 96, 0.2);
+            border: 2px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .prize-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .scratch-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            pointer-events: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        .scratch-text.hidden {
+            opacity: 0;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+            width: 0%;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .progress-text span {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .controls {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            border: none;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+            -webkit-appearance: none;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: none;
+        }
+
+        .btn-secondary:active {
+            background: rgba(233, 69, 96, 0.3);
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+        }
+
+        .celebration.active {
+            display: block;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .complete-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 30px 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #e94560;
+            box-shadow: 0 0 50px rgba(233, 69, 96, 0.4);
+            z-index: 200;
+            transition: transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        .complete-message.show {
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .complete-message h2 {
+            font-size: 28px;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .complete-message p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .brush-size-control {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+        }
+
+        .brush-size-control input[type="range"] {
+            width: 120px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .brush-size-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #e94560;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+        }
+
+        .hint {
+            margin-top: 12px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            text-align: center;
+        }
+
+        @media (max-width: 400px) {
+            .card-container {
+                width: 300px;
+                height: 194px;
+            }
+            .progress-container {
+                width: 300px;
+            }
+            .title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title">🚙 Toyota Hilux</div>
+    <div class="subtitle">გადაფხეკეთ და აღმოაჩინეთ!</div>
+
+    <div class="card-container" id="cardContainer">
+        <img class="prize-image" id="prizeImage" src="" alt="Toyota Hilux" draggable="false">
+        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+        <div class="scratch-text" id="scratchText">✨ გადაფხეკეთ აქ ✨</div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="progress-text">გაიფხეკა: <span id="progressPercent">0</span>%</div>
+    </div>
+
+    <div class="brush-size-control">
+        🖌 ფუნჯის ზომა:
+        <input type="range" id="brushSize" min="15" max="60" value="30">
+        <span id="brushSizeValue">30</span>px
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="resetCard()">ახალი ბარათი</button>
+        <button class="btn btn-secondary" onclick="revealAll()">გახსნა</button>
+    </div>
+
+    <div class="hint">👆 გადაფხეკეთ თითით ან მაუსით</div>
+
+    <div class="celebration" id="celebration"></div>
+
+    <div class="complete-message" id="completeMessage">
+        <h2>🎉 გილოცავთ!</h2>
+        <p>Toyota Hilux აღმოაჩინეთ!</p>
+        <button class="btn" style="margin-top: 15px;" onclick="resetCard(); hideComplete();">ახალი თამაში</button>
+    </div>
+
+    <script>
+        const hiluxImages = [
+            'https://kimi-web-img.moonshot.cn/img/global.toyota/dc543644b2fd4c7d41df016ed846e075842b994e.jpg',
+            'https://kimi-web-img.moonshot.cn/img/www.topgear.com/7c5629b9c72f1175360507121a236311d67a584a.jpg',
+            'https://kimi-web-img.moonshot.cn/img/www.toyota.com.sa/f27e8cff8d4ae6f21dc39162ab410342300a1d91.jpg',
+            'https://kimi-web-img.moonshot.cn/img/mohamedhakim.com/d70b2816cd1eee97f9d1a75b276f41b9a3f70569.png',
+            'https://kimi-web-img.moonshot.cn/img/stimg.cardekho.com/0064554730640a0f6500cce2a50fddbfefabed77.jpg'
+        ];
+
+        const canvas = document.getElementById('scratchCanvas');
+        const ctx = canvas.getContext('2d');
+        const cardContainer = document.getElementById('cardContainer');
+        const prizeImage = document.getElementById('prizeImage');
+        const scratchText = document.getElementById('scratchText');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const brushSizeInput = document.getElementById('brushSize');
+        const brushSizeValue = document.getElementById('brushSizeValue');
+        const celebration = document.getElementById('celebration');
+        const completeMessage = document.getElementById('completeMessage');
+
+        let isDrawing = false;
+        let brushSize = 30;
+        let lastX = 0;
+        let lastY = 0;
+        let isComplete = false;
+        let currentImageIndex = -1;
+
+        // Offscreen canvas for tracking scratched pixels
+        let trackCanvas = null;
+        let trackCtx = null;
+
+        function initTrackCanvas() {
+            trackCanvas = document.createElement('canvas');
+            trackCanvas.width = canvas.width;
+            trackCanvas.height = canvas.height;
+            trackCtx = trackCanvas.getContext('2d');
+            // Fill with black (unscratched = black, scratched = transparent)
+            trackCtx.fillStyle = '#000';
+            trackCtx.fillRect(0, 0, trackCanvas.width, trackCanvas.height);
+        }
+
+        function resizeCanvas() {
+            const rect = cardContainer.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            if (trackCanvas) {
+                trackCanvas.width = rect.width;
+                trackCanvas.height = rect.height;
+            }
+        }
+
+        function drawScratchLayer() {
+            ctx.globalCompositeOperation = 'source-over';
+
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#b8b8b8');
+            gradient.addColorStop(0.25, '#e0e0e0');
+            gradient.addColorStop(0.5, '#c0c0c0');
+            gradient.addColorStop(0.75, '#d8d8d8');
+            gradient.addColorStop(1, '#a8a8a8');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = 'rgba(255,255,255,0.15)';
+            for (let i = 0; i < 200; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 3 + 1;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+            ctx.lineWidth = 1;
+            for (let i = -canvas.height; i < canvas.width + canvas.height; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i + canvas.height, canvas.height);
+                ctx.stroke();
+            }
+
+            ctx.strokeStyle = 'rgba(233, 69, 96, 0.3)';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+
+            // Reset tracking canvas
+            if (trackCtx) {
+                trackCtx.fillStyle = '#000';
+                trackCtx.fillRect(0, 0, trackCanvas.width, trackCanvas.height);
+            }
+
+            isComplete = false;
+            updateProgress(0);
+        }
+
+        function getRandomImage() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * hiluxImages.length);
+            } while (newIndex === currentImageIndex && hiluxImages.length > 1);
+            currentImageIndex = newIndex;
+            return hiluxImages[newIndex];
+        }
+
+        function getCanvasPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+            const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function scratchAt(x, y) {
+            if (isComplete) return;
+
+            // Draw on visible canvas
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, brushSize, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Also mark on tracking canvas
+            trackCtx.globalCompositeOperation = 'destination-out';
+            trackCtx.beginPath();
+            trackCtx.arc(x, y, brushSize, 0, Math.PI * 2);
+            trackCtx.fill();
+        }
+
+        function scratchLine(x1, y1, x2, y2) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const steps = Math.max(1, Math.ceil(distance / (brushSize * 0.5)));
+
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                const x = x1 + dx * t;
+                const y = y1 + dy * t;
+                scratchAt(x, y);
+            }
+        }
+
+        function calculateProgress() {
+            if (!trackCtx) return;
+
+            const w = trackCanvas.width;
+            const h = trackCanvas.height;
+            // Sample every 4th pixel for performance
+            const sampleStep = 4;
+            const imageData = trackCtx.getImageData(0, 0, w, h);
+            const pixels = imageData.data;
+            let transparentCount = 0;
+            let totalSampled = 0;
+
+            for (let y = 0; y < h; y += sampleStep) {
+                for (let x = 0; x < w; x += sampleStep) {
+                    const idx = (y * w + x) * 4;
+                    if (pixels[idx + 3] === 0) {
+                        transparentCount++;
+                    }
+                    totalSampled++;
+                }
+            }
+
+            const percent = totalSampled > 0 ? Math.round((transparentCount / totalSampled) * 100) : 0;
+            updateProgress(percent);
+
+            if (percent > 15) {
+                scratchText.classList.add('hidden');
+            }
+
+            if (percent >= 100 && !isComplete) {
+                isComplete = true;
+                showCelebration();
+            }
+        }
+
+        function updateProgress(percent) {
+            progressBar.style.width = percent + '%';
+            progressPercent.textContent = percent;
+        }
+
+        function showCelebration() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = ['#e94560', '#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff'][Math.floor(Math.random() * 5)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                celebration.appendChild(confetti);
+            }
+            celebration.classList.add('active');
+            setTimeout(() => {
+                completeMessage.classList.add('show');
+            }, 1500);
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 100, 50, 100, 200]);
+            }
+        }
+
+        function hideComplete() {
+            completeMessage.classList.remove('show');
+            celebration.classList.remove('active');
+            celebration.innerHTML = '';
+        }
+
+        function resetCard() {
+            hideComplete();
+            scratchText.classList.remove('hidden');
+            prizeImage.src = getRandomImage();
+        }
+
+        function revealAll() {
+            if (isComplete) return;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            trackCtx.globalCompositeOperation = 'destination-out';
+            trackCtx.fillRect(0, 0, trackCanvas.width, trackCanvas.height);
+            scratchText.classList.add('hidden');
+            calculateProgress();
+        }
+
+        // Pointer events (unified mouse + touch)
+        canvas.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            isDrawing = true;
+            const pos = getCanvasPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+            scratchAt(lastX, lastY);
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const pos = getCanvasPos(e);
+            scratchLine(lastX, lastY, pos.x, pos.y);
+            lastX = pos.x;
+            lastY = pos.y;
+        });
+
+        canvas.addEventListener('pointerup', (e) => {
+            e.preventDefault();
+            isDrawing = false;
+            lastX = 0;
+            lastY = 0;
+            calculateProgress();
+        });
+
+        canvas.addEventListener('pointercancel', (e) => {
+            e.preventDefault();
+            isDrawing = false;
+            lastX = 0;
+            lastY = 0;
+            calculateProgress();
+        });
+
+        canvas.addEventListener('pointerleave', (e) => {
+            // Don't stop drawing on leave - user might drag outside and back
+            // Only stop on pointerup
+        });
+
+        // Also handle touch events as fallback
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (e.touches.length === 1) {
+                isDrawing = true;
+                const pos = getCanvasPos(e);
+                lastX = pos.x;
+                lastY = pos.y;
+                scratchAt(lastX, lastY);
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isDrawing || e.touches.length !== 1) return;
+            const pos = getCanvasPos(e);
+            scratchLine(lastX, lastY, pos.x, pos.y);
+            lastX = pos.x;
+            lastY = pos.y;
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            isDrawing = false;
+            lastX = 0;
+            lastY = 0;
+            calculateProgress();
+        }, { passive: false });
+
+        canvas.addEventListener('touchcancel', (e) => {
+            e.preventDefault();
+            isDrawing = false;
+            lastX = 0;
+            lastY = 0;
+            calculateProgress();
+        }, { passive: false });
+
+        // Brush size
+        brushSizeInput.addEventListener('input', (e) => {
+            brushSize = parseInt(e.target.value);
+            brushSizeValue.textContent = brushSize;
+        });
+
+        // Prevent zoom/scroll
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+        document.addEventListener('gesturechange', (e) => e.preventDefault());
+        document.addEventListener('gestureend', (e) => e.preventDefault());
+
+        // Init
+        function init() {
+            resizeCanvas();
+            initTrackCanvas();
+            drawScratchLayer();
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            drawScratchLayer();
+        });
+
+        prizeImage.onload = () => {
+            init();
+        };
+
+        prizeImage.onerror = () => {
+            // Fallback if image fails to load
+            init();
+        };
+
+        prizeImage.src = getRandomImage();
+    </script>
+</body>
+</html>
