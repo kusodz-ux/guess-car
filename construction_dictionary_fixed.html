@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏗️ სამშენებლო ლექსიკონი | Construction Dictionary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --primary-light: #2e8bc0;
+            --primary-dark: #0d3d4d;
+            --accent: #e76f51;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2b2d42;
+            --text-light: #6c757d;
+            --border: #e9ecef;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans Georgian', 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 3rem 1rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s linear infinite;
+        }
+        @keyframes float { 0% { transform: translate(0,0); } 100% { transform: translate(-60px,-60px); } }
+        .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; position: relative; font-weight: 700; }
+        .header p { font-size: 1.1rem; opacity: 0.9; position: relative; font-weight: 300; }
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+        .controls {
+            max-width: 1200px;
+            margin: -2rem auto 2rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+        .controls-inner {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .search-box { position: relative; width: 100%; }
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: var(--bg);
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,95,122,0.1);
+        }
+        .search-box .icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .cat-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .cat-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+        .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .cat-btn .count {
+            display: inline-block;
+            background: rgba(0,0,0,0.1);
+            padding: 0.1rem 0.4rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            margin-left: 0.3rem;
+        }
+        .cat-btn.active .count { background: rgba(255,255,255,0.2); }
+        .stats {
+            max-width: 1200px;
+            margin: 0 auto 1.5rem;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 3rem;
+            position: relative;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-image .placeholder {
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        .card-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card-translation {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            flex: 1;
+        }
+        .card-id {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            opacity: 0.6;
+        }
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+        .empty-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 100;
+        }
+        .scroll-top.visible { opacity: 1; visibility: visible; }
+        .scroll-top:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; }
+            .categories { justify-content: flex-start; overflow-x: auto; padding-bottom: 0.5rem; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    
+        .quiz-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #d35400);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(231,111,81,0.3);
+            font-family: inherit;
+        }
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231,111,81,0.4);
+        }
+        .quiz-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .quiz-overlay.active { display: flex; }
+        .quiz-modal {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: quizIn 0.4s ease-out;
+        }
+        @keyframes quizIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .quiz-header h2 { font-size: 1.5rem; margin: 0; }
+        .quiz-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        .quiz-close:hover { background: rgba(255,255,255,0.3); }
+        .quiz-body { padding: 2rem; }
+        .quiz-progress {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .quiz-progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .quiz-progress-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .quiz-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .quiz-question .q-num {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .quiz-option {
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            background: var(--bg);
+            text-align: left;
+            font-family: inherit;
+        }
+        .quiz-option:hover {
+            border-color: var(--primary-light);
+            background: rgba(26,95,122,0.05);
+        }
+        .quiz-option.correct {
+            border-color: #059669;
+            background: rgba(5,150,105,0.1);
+            color: #059669;
+        }
+        .quiz-option.wrong {
+            border-color: #dc2626;
+            background: rgba(220,38,38,0.1);
+            color: #dc2626;
+        }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.7; }
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            display: none;
+        }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct {
+            background: rgba(5,150,105,0.1);
+            color: #059669;
+            border: 1px solid #059669;
+        }
+        .quiz-feedback.wrong {
+            background: rgba(220,38,38,0.1);
+            color: #dc2626;
+            border: 1px solid #dc2626;
+        }
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            gap: 1rem;
+        }
+        .quiz-nav-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .quiz-nav-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+        .quiz-nav-btn.primary:hover { background: var(--primary-dark); }
+        .quiz-nav-btn.secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+        .quiz-nav-btn.secondary:hover { background: #d1d5db; }
+        .quiz-nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .quiz-start {
+            text-align: center;
+            padding: 2rem;
+        }
+        .quiz-start h3 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+        .quiz-start p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        .quiz-start .quiz-rules {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .quiz-start .quiz-rules li {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        .quiz-results {
+            text-align: center;
+            padding: 2rem;
+        }
+        .quiz-results .score-circle {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            position: relative;
+        }
+        .quiz-results .score-circle::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) calc(var(--score) * 3.6deg), var(--border) 0);
+            mask: radial-gradient(transparent 55%, black 56%);
+            -webkit-mask: radial-gradient(transparent 55%, black 56%);
+        }
+        .quiz-results .score-inner {
+            position: relative;
+            z-index: 1;
+        }
+        .quiz-results .score-label {
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        .quiz-results h3 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+        .quiz-results .result-msg {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        .quiz-results .result-detail {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .quiz-results .result-stat {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+        }
+        .quiz-results .result-stat .num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .quiz-results .result-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        @media (max-width: 768px) {
+            .quiz-results .result-detail { grid-template-columns: 1fr; }
+            .quiz-header h2 { font-size: 1.2rem; }
+            .quiz-body { padding: 1rem; }
+        }
+
+    </style>
+<base target="_blank">
+<base target="_blank">
+</head>
+<body>
+    <header class="header">
+        <h1>🏗️ სამშენებლო ლექსიკონი</h1>
+        <p>Construction Dictionary — English-Georgian</p>
+        <div class="badge">📚 221 ტერმინი | 6 კატეგორია</div>
+        <button class="quiz-btn" onclick="openQuiz()">📝 ტესტი</button>
+
+    </header>
+
+    <div class="controls">
+        <div class="controls-inner">
+            <div class="search-box">
+                <span class="icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="მოძებნე ტერმინი... (ინგლისურად ან ქართულად)">
+            </div>
+            <div class="categories" id="categoryButtons"></div>
+        </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="grid" id="grid"></div>
+
+    <footer class="footer">
+        <p>🏗️ სამშენებლო ლექსიკონი | შექმნილია 2026 | ყველა უფლება დაცულია</p>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <!-- Quiz Modal -->
+    <div class="quiz-overlay" id="quizOverlay">
+        <div class="quiz-modal">
+            <div class="quiz-header">
+                <h2>📝 სამშენებლო ტესტი</h2>
+                <button class="quiz-close" onclick="closeQuiz()">✕</button>
+            </div>
+            <div class="quiz-body" id="quizBody">
+                <!-- Content injected by JS -->
+            </div>
+        </div>
+    </div>
+    <script>
+const vocabulary = [
+    {id:1,en:"Foundation",ka:"საძირკველი",desc:"შენობის ქვედა ნაწილი, რომელიც მთელ წონას აბსორბირებს და გადააქვს მიწაში.",image:"https://kimi-web-img.moonshot.cn/img/trconcreteconstructionomaha.com/df381c388daa4c0675840bfcf9cb5be754926564.jpg",category:"structure"},
+    {id:2,en:"Beam",ka:"ბალკა",desc:"ჰორიზონტალური საყრდენი ელემენტი, რომელიც წონას გადააქვს სვეტებზე.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"structure"},
+    {id:3,en:"Column",ka:"სვეტი",desc:"ვერტიკალური საყრდენი ელემენტი, რომელიც მთელ წონას მიწაზე გადააქვს.",image:"https://kimi-web-img.moonshot.cn/img/www.structuralbasics.com/88af2de7ba1c87e5847380b8a153b589a70211d8.jpg",category:"structure"},
+    {id:4,en:"Slab",ka:"ფილა (გადახურვა)",desc:"ჰორიზონტალური ბეტონის ელემენტი, რომელიც იატაკს ან სახურავს წარმოადგენს.",image:"https://kimi-web-img.moonshot.cn/img/mapleconcretepumping.ca/f2101e42a260124a1421aff9537eae3765488d07.jpg",category:"structure"},
+    {id:5,en:"Truss",ka:"ფერმა",desc:"სამკუთხა ელემენტებისგან შემდგარი საყრდენი სისტემა ფართო გადახურვებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/newindscorp.com/5adf86c6cff4aa58fde829ed3fd6665af22d49d2.jpg",category:"structure"},
+    {id:6,en:"Load",ka:"დატვირთვა",desc:"ძალა, რომელსაც სტრუქტურა იღებს (საკუთარი წონა, ნივთები, ხალხი).",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/8a31540f5e0a08d92445f62defa31125cb4b5ae4.jpg",category:"structure"},
+    {id:7,en:"Dead Load",ka:"მუდმივი დატვირთვა",desc:"სტრუქტურის საკუთარი წონა და მუდმივად დამაგრებული ელემენტების წონა.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"structure"},
+    {id:8,en:"Live Load",ka:"ცვალებადი დატვირთვა",desc:"დროებითი დატვირთვა - ხალხი, ავეჯი, მოძრავი ტვირთი.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"structure"},
+    {id:9,en:"Wind Load",ka:"ქარის დატვირთვა",desc:"ქარის ზეწოლა შენობაზე, რომელიც სტრუქტურულ გათვლებში უნდა გაითვალისწინოს.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"structure"},
+    {id:10,en:"Snow Load",ka:"თოვლის დატვირთვა",desc:"თოვლის წონა სახურავზე, რომელიც სტრუქტურულ გათვლებში უნდა გაითვალისწინოს.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"structure"},
+    {id:11,en:"Seismic Load",ka:"სეისმური დატვირთვა",desc:"მიწისძვრის ზემოქმედება შენობაზე, რომელიც სეისმურ რაიონებში გაითვალისწინება.",image:"https://kimi-web-img.moonshot.cn/img/www.cpcs-training-courses.co.uk/078a0a3e7c2d4e5b0a2fcbd163f65e9c00f07161.jpg",category:"structure"},
+    {id:12,en:"Bearing Capacity",ka:"დატვირთვის ტევადობა",desc:"მიწის მაქსიმალური ძალა, რომელსაც შეუძლია საძირკვლის უსაფრთხოდ დაჭერა.",image:"https://kimi-web-img.moonshot.cn/img/jonochshorn.com/1cab88c17f8afcb0e33a01114cb50f1663e33123.png",category:"structure"},
+    {id:13,en:"Settlement",ka:"ჩამოჯდომა",desc:"საძირკვლის ვერტიკალური გადაადგილება მიწის შეკუმშვის გამო.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/99e8a53c54372f83648ff6b07bcbed30741e43a7.jpg",category:"structure"},
+    {id:14,en:"Retaining Wall",ka:"კედელი-შემკავი",desc:"კედელი, რომელიც მიწის მასას აკავებს და არ აძლევს ჩამოშლის საშუალებას.",image:"https://kimi-web-img.moonshot.cn/img/www.cpcs-training-courses.co.uk/078a0a3e7c2d4e5b0a2fcbd163f65e9c00f07161.jpg",category:"structure"},
+    {id:15,en:"Cantilever",ka:"კონსოლი",desc:"სტრუქტურული ელემენტი, რომელიც ერთი მხარითაა დაფიქსირებული, მეორე კი თავისუფალია.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:16,en:"Arch",ka:"თაღი",desc:"გამრუდებული სტრუქტურული ელემენტი, რომელიც წონას მხარეებზე გადააქვს.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:17,en:"Vault",ka:"გუმბათი (თაღოვანი)",desc:"თაღებისგან შემდგარი სივრცითი სტრუქტურა გადახურვისთვის.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:18,en:"Dome",ka:"გუმბათი",desc:"ნახევარსფერული სტრუქტურა, რომელიც წონას ყველა მიმართულებით გადააქვს.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:19,en:"Frame",ka:"რამა",desc:"სვეტებისა და ბალკებისგან შემდგარი სტრუქტურული სისტემა.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"structure"},
+    {id:20,en:"Shear Wall",ka:"ჭრის კედელი",desc:"მასიური კედელი, რომელიც ჰორიზონტალურ ძალებს (ქარი, მიწისძვრა) იღებს.",image:"https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/8a3fa5161cf08eaf30bf9dd60f9a3182125418d4.jpg",category:"structure"},
+    {id:21,en:"Joist",ka:"ბალკა-შემაერთებელი",desc:"პატარა ჰორიზონტალური ელემენტი, რომელიც იატაკის ან სახურავის დაფას იჭერს.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"structure"},
+    {id:22,en:"Rafter",ka:"სახურავის ბალკა",desc:"დახრილი ბალკა სახურავის კარკასში, რომელიც სახურავის საფარს იჭერს.",image:"https://kimi-web-img.moonshot.cn/img/newindscorp.com/5adf86c6cff4aa58fde829ed3fd6665af22d49d2.jpg",category:"structure"},
+    {id:23,en:"Purlin",ka:"პურლინი",desc:"ჰორიზონტალური ელემენტი სახურავზე, რომელიც რეფტერებს აერთიანებს.",image:"https://kimi-web-img.moonshot.cn/img/newindscorp.com/5adf86c6cff4aa58fde829ed3fd6665af22d49d2.jpg",category:"structure"},
+    {id:24,en:"Girder",ka:"ძირითადი ბალკა",desc:"დიდი ზომის ბალკა, რომელიც სხვა ბალკების დატვირთვას იღებს.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"structure"},
+    {id:25,en:"Lintels",ka:"თავსადები",desc:"ჰორიზონტალური ელემენტი კარისა და ფანჯრის ღიობების თავზე დატვირთვის გადასატანად.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"structure"},
+    {id:26,en:"Parapet",ka:"პარაპეტი",desc:"მაღალი შენობის კედლის გაგრძელება სახურავის დონეზე უსაფრთხოებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:27,en:"Balustrade",ka:"ბალუსტრადა",desc:"განმეორებადი სვეტებისგან (ბალუსტრებისგან) შემდგარი ღობე საფეხურებზე ან აივნებზე.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:28,en:"Mezzanine",ka:"მეზანინი",desc:"ნახევარსართული შენობაში, რომელიც მთავარ სართულებს შორისაა მოთავსებული.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:29,en:"Basement",ka:"სარდაფი",desc:"შენობის ნაწილი, რომელიც მიწის დონის ქვემოთაა.",image:"https://kimi-web-img.moonshot.cn/img/www.cpcs-training-courses.co.uk/078a0a3e7c2d4e5b0a2fcbd163f65e9c00f07161.jpg",category:"structure"},
+    {id:30,en:"Attic",ka:"სხივი",desc:"შენობის ზედა სივრცე სახურავის ქვეშ, რომელიც ხშირად საცხოვრებლად გამოიყენება.",image:"https://kimi-web-img.moonshot.cn/img/newindscorp.com/5adf86c6cff4aa58fde829ed3fd6665af22d49d2.jpg",category:"structure"},
+    {id:31,en:"Facade",ka:"ფასადი",desc:"შენობის გარე წინა ზედაპირი, რომელიც ვიზუალურად განსაზღვრავს მის იერსახეს.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:32,en:"Elevation",ka:"ფასადური ნახაზი",desc:"შენობის გარე ხედის ნახაზი (წინა, გვერდითი ან უკანა მხარე).",image:"https://kimi-web-img.moonshot.cn/img/scottsimpsondesignbuild.com/8cf8725d830c88fd1b29f1203be6fa570f8eb3ed.png",category:"structure"},
+    {id:33,en:"Section",ka:"ჭრილი",desc:"შენობის წინაგან გადაჭრილი ხედის ნახაზი, რომელზეც შიდა სტრუქტურა ჩანს.",image:"https://kimi-web-img.moonshot.cn/img/scottsimpsondesignbuild.com/8cf8725d830c88fd1b29f1203be6fa570f8eb3ed.png",category:"structure"},
+    {id:34,en:"Plan",ka:"გეგმა",desc:"შენობის ზემოდან ხედის ნახაზი, რომელზეც ოთახების განლაგებაა გამოსახული.",image:"https://kimi-web-img.moonshot.cn/img/media.istockphoto.com/adb1bc721bd790f40ddba50ff9e200ced35ab0a6.jpg",category:"structure"},
+    {id:35,en:"Detail",ka:"დეტალი",desc:"გაფართოებული ნახაზი კონკრეტული კვანძის ან ელემენტის დასათვალიერებლად.",image:"https://kimi-web-img.moonshot.cn/img/scottsimpsondesignbuild.com/8cf8725d830c88fd1b29f1203be6fa570f8eb3ed.png",category:"structure"},
+    {id:36,en:"Expansion Joint",ka:"გაფართოების ნაკერი",desc:"შენობაში დატოვებული ხვრელი ტემპერატურული გაფართოების/შეკუმშვისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"structure"},
+    {id:37,en:"Control Joint",ka:"კონტროლის ნაკერი",desc:"ნაკერი ბეტონში ან აგურში, რომელიც ბზარების გაჩენას კონტროლირებად ადგილას იწვევს.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"structure"},
+    {id:38,en:"Damp Proof Course (DPC)",ka:"სიბრტყე-შემკავი",desc:"ჰორიზონტალური ბარიერი კედელში ტენიანობის ასაღკვეთად.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"structure"},
+    {id:39,en:"Plinth",ka:"პლინთუსი",desc:"შენობის ქვედა ნაწილი საძირკვლისა და პირველი სართულის შორის.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"structure"},
+    {id:40,en:"Cornice",ka:"კარნიზი",desc:"დეკორატიული ელემენტი შენობის ზედა ნაწილში, რომელიც წყალს აცილებს კედლებს.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"structure"},
+    {id:41,en:"Concrete",ka:"ბეტონი",desc:"ცემენტის, ქვიშის, ხრეშისა და წყლის ნარევი, რომელიც მყარდება და საყრდენ ელემენტს ქმნის.",image:"https://kimi-web-img.moonshot.cn/img/images.unsplash.com/photo-1541888946425-d81bb19240f5",category:"materials"},
+    {id:42,en:"Reinforced Concrete",ka:"არმატურული ბეტონი",desc:"ბეტონი, რომელშიც ფოლადის არმატურაა ჩადებული გაჭიმვის ძალების ასაღებად.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"materials"},
+    {id:43,en:"Steel",ka:"ფოლადი",desc:"რკინა-ნახშირბადის შენადნობი, რომელიც მაღალი სიმტკიცით გამოირჩევა.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"materials"},
+    {id:44,en:"Rebar",ka:"არმატურა",desc:"ფოლადის გრძივი ზოლები, რომლებიც ბეტონში ჩადებულია გაჭიმვის ძალების ასაღებად.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"materials"},
+    {id:45,en:"Brick",ka:"აგური",desc:"თიხისგან გამომწვარი მყარი ბლოკი კედლების ასაშენებლად.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"materials"},
+    {id:46,en:"Mortar",ka:"ხსნარი",desc:"ცემენტის, ქვიშისა და წყლის ნარევი აგურების ან ქვების შესაერთებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:47,en:"Cement",ka:"ცემენტი",desc:"წებოვანი მასალა, რომელიც წყალთან ერთად ბეტონსა და ხსნარს ქმნის.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:48,en:"Aggregate",ka:"შემავსებელი",desc:"ქვიშა, ხრეში ან ნატეხი ქვა ბეტონში ან ასფალტში.",image:"https://kimi-web-img.moonshot.cn/img/www.altradfort.nl/9e15870bac531e5803a52364ad30958e7eae1be0.jpg",category:"materials"},
+    {id:49,en:"Gravel",ka:"ხრეში",desc:"პატარა ქვები, რომლებიც ბეტონისა და ასფალტის შემადგენლობაში შედის.",image:"https://kimi-web-img.moonshot.cn/img/www.altradfort.nl/9e15870bac531e5803a52364ad30958e7eae1be0.jpg",category:"materials"},
+    {id:50,en:"Sand",ka:"ქვიშა",desc:"დაფქული ქვის მარცვლები, რომლებიც ბეტონში, ხსნარში და საღებავში გამოიყენება.",image:"https://kimi-web-img.moonshot.cn/img/www.altradfort.nl/9e15870bac531e5803a52364ad30958e7eae1be0.jpg",category:"materials"},
+    {id:51,en:"Timber",ka:"ხის მასალა",desc:"დამუშავებული ხე სამშენებლო მიზნებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"materials"},
+    {id:52,en:"Plywood",ka:"ფანერა",desc:"ხის ფენებისგან შემდგარი მასალა, რომელიც ფორმისთვის და დაფისთვის გამოიყენება.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"materials"},
+    {id:53,en:"Glass",ka:"მინა",desc:"გამჭვირვალე მასალა ფანჯრებისა და ფასადებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"materials"},
+    {id:54,en:"Insulation",ka:"იზოლაცია",desc:"მასალა, რომელიც ტემპერატურის ცვლილებას და ხმას აკავებს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"materials"},
+    {id:55,en:"Gypsum Board",ka:"გიფსოკარტონი",desc:"გიფსის ფილა ქაღალდის ფენებს შორის, რომელიც შიდა გაყოფისთვის გამოიყენება.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:56,en:"Asphalt",ka:"ასფალტი",desc:"წებოვანი მასალა გზებისა და სახურავების საფარისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"materials"},
+    {id:57,en:"Ceramic Tile",ka:"კერამიკული ფილა",desc:"თიხისგან გამომწვარი ფილა იატაკისა და კედლების დასაფარად.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"materials"},
+    {id:58,en:"Granite",ka:"გრანიტი",desc:"მყარი ბუნებრივი ქვა საფეხურების, სამზარეულოსა და ფასადებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"materials"},
+    {id:59,en:"Marble",ka:"მარმარილო",desc:"ბუნებრივი ქვა დეკორატიული ფილებისა და ელემენტებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"materials"},
+    {id:60,en:"Aluminum",ka:"ალუმინი",desc:"მსუბუქი ლითონი ფანჯრის ჩარჩოებისა და ფასადებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"materials"},
+    {id:61,en:"Copper",ka:"სპილენძი",desc:"წითელი ლითონი მილების, გადასაბმელებისა და ელექტროგაყვანილობისთვის.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"materials"},
+    {id:62,en:"PVC",ka:"პოლივინილქლორიდი",desc:"პლასტმასის მასალა მილებისა და ფანჯრის პროფილებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/8a3fa5161cf08eaf30bf9dd60f9a3182125418d4.jpg",category:"materials"},
+    {id:63,en:"Sealant",ka:"ჰერმეტიკი",desc:"მასალა ნაკერების, ნაპრალებისა და შეერთებების დასალუქად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:64,en:"Adhesive",ka:"წებო",desc:"თხევადი ან პასტისებრი მასალა ორი ზედაპირის შესაერთებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:65,en:"Waterproofing Membrane",ka:"წყალგაუმტარი მემბრანა",desc:"მასალა, რომელიც ზედაპირს წყლისგან იცავს.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"materials"},
+    {id:66,en:"Bitumen",ka:"ბიტუმი",desc:"წებოვანი ნავთობპროდუქტი სახურავისა და ჰიდროიზოლაციისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"materials"},
+    {id:67,en:"Lime",ka:"კირი",desc:"თეთრი მასალა ხსნარებისა და სანიტარული სამუშაოებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:68,en:"Plaster",ka:"შავი თაბაშირი",desc:"ცემენტისა და ქვიშის ნარევი კედლების გასასწორებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:69,en:"Stucco",ka:"თაბაშირი",desc:"დეკორატიული საფარი კედლებისთვის, რომელიც ტექსტურას აძლევს.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:70,en:"Polystyrene",ka:"პოლისტიროლი",desc:"მსუბუქი პლასტმასის მასალა თბოიზოლაციისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"materials"},
+    {id:71,en:"Rock Wool",ka:"ქვის ბამბა",desc:"მინერალური მასალა თბო- და ხმაიზოლაციისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"materials"},
+    {id:72,en:"Fiberglass",ka:"მინის ბოჭკო",desc:"მინის თხელი ძაფებისგან შემდგარი მასალა იზოლაციისა და გამაგრებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"materials"},
+    {id:73,en:"Varnish",ka:"ლაქი",desc:"გამჭვირვალე დამცავი საფარი ხის ზედაპირებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"materials"},
+    {id:74,en:"Paint",ka:"საღებავი",desc:"ფერადი თხევადი მასალა ზედაპირების დასაფარად და დასაცავად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:75,en:"Primer",ka:"გრუნტი",desc:"პირველი ფენა ზედაპირზე საღებავის მიმაგრების გასაუმჯობესებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:76,en:"Epoxy",ka:"ეპოქსიდური ფისი",desc:"ძლიერი წებოვანი მასალა იატაკის საფარისა და შეერთებებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"materials"},
+    {id:77,en:"Silicone",ka:"სილიკონი",desc:"ელასტიური მასალა ჰერმეტიზაციისა და შეერთებების დასალუქად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"materials"},
+    {id:78,en:"Welding Rod",ka:"შედუღების ელექტროდი",desc:"ფოლადის ზოლი შედუღებისთვის, რომელიც ლითონებს აერთიანებს.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"materials"},
+    {id:79,en:"Anchor Bolt",ka:"დამაგრების ბოლტი",desc:"ფოლადის ბოლტი ბეტონში ან მიწაში სტრუქტურის დასამაგრებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"materials"},
+    {id:80,en:"Nail",ka:"ცალი",desc:"ფოლადის მაგარი პირამიდული ფორმის ელემენტი ხის შესაერთებლად.",image:"https://kimi-web-img.moonshot.cn/img/m.media-amazon.com/512edb1a21ac40bbd74a6a52592434ad790511b6.jpg",category:"materials"},
+    {id:81,en:"Screw",ka:"ხრახნი",desc:"მბრუნავი ფოლადის ელემენტი მასალების ერთმანეთზე დასამაგრებლად.",image:"https://kimi-web-img.moonshot.cn/img/wpcharming.com/25db10fa888c1d255d20c9e4522c8a156fb0a532.png",category:"materials"},
+    {id:82,en:"Excavator",ka:"ექსკავატორი",desc:"დიდი მობილური მანქანა მიწის ამოსათხრელად და მასალების ასასაღებად.",image:"https://kimi-web-img.moonshot.cn/img/sanyglobal-img.sany.com.cn/0e7e18fb1ac14039f3a7ca799330d4eebbd3f426.png",category:"tools"},
+    {id:83,en:"Bulldozer",ka:"ბულდოზერი",desc:"ძლიერი ტრაქტორი მიწის გასასუფთავებლად და გადასაზიდად.",image:"https://kimi-web-img.moonshot.cn/img/www.deere.com/ef4f86e5afe85a732f437d18ec927201c6237e85.jpg",category:"tools"},
+    {id:84,en:"Crane",ka:"ატლი",desc:"მაღალი მანქანა მძიმე მასალების ასასაწევად და გადასაადგილებლად.",image:"https://kimi-web-img.moonshot.cn/img/iirorwxhjiorli5q.ldycdn.com/365c557e5b95b3acadff20bcfd82c8e378ae5769.jpg",category:"tools"},
+    {id:85,en:"Tower Crane",ka:"კოშკური ატლი",desc:"მაღალი, სტაციონარული ატლი შენობების მშენებლობისთვის.",image:"https://kimi-web-img.moonshot.cn/img/iirorwxhjiorli5q.ldycdn.com/365c557e5b95b3acadff20bcfd82c8e378ae5769.jpg",category:"tools"},
+    {id:86,en:"Concrete Mixer",ka:"ბეტონის მიქსერი",desc:"მანქანა ბეტონის ინგრედიენტების შესაზავად.",image:"https://kimi-web-img.moonshot.cn/img/nmreadymix.com/ca0d4897af3694ab1d535e4adfe8c19ac0443f53.jpeg",category:"tools"},
+    {id:87,en:"Concrete Pump",ka:"ბეტონის ტუმბო",desc:"მოწყობილობა ბეტონის მაღალ ან შორ მანძილზე გადასასატანად.",image:"https://kimi-web-img.moonshot.cn/img/nmreadymix.com/ca0d4897af3694ab1d535e4adfe8c19ac0443f53.jpeg",category:"tools"},
+    {id:88,en:"Scaffolding",ka:"ლესავი",desc:"დროებითი საყრდენი სტრუქტურა მუშებისა და მასალების დასაჭერად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"tools"},
+    {id:89,en:"Formwork",ka:"ოპალუბკა",desc:"დროებითი ხის ან მეტალის კონსტრუქცია ბეტონის ჩასასხმელად.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/8a31540f5e0a08d92445f62defa31125cb4b5ae4.jpg",category:"tools"},
+    {id:90,en:"Rebar Bender",ka:"არმატურის მოხრისი",desc:"ხელსაწყო არმატურის მოსახრევად სასურველ ფორმაში.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"tools"},
+    {id:91,en:"Rebar Cutter",ka:"არმატურის საჭრელი",desc:"ხელსაწყო არმატურის ზოლების სასაჭრელად.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"tools"},
+    {id:92,en:"Jackhammer",ka:"პნევმატური ჩაქუჩი",desc:"ელექტრო ან პნევმატური ხელსაწყო ბეტონისა და ასფალტის დასანგრევად.",image:"https://kimi-web-img.moonshot.cn/img/image.made-in-china.com/870d75f197662656467f5c4a0c2e88f847f45595.webp",category:"tools"},
+    {id:93,en:"Compactor",ka:"კომპაქტორი",desc:"მანქანა ან მოწყობილობა მიწის ან ასფალტის დასაკომპაქტებლად.",image:"https://kimi-web-img.moonshot.cn/img/rrmachinery.sg/d24afe4d423bc7eb5d6efb9d2568c32167fc1194.webp",category:"tools"},
+    {id:94,en:"Dump Truck",ka:"სატვირთო მანქანა",desc:"მანქანა მასალების გადასაზიდად, რომლის თავი უკან იხსნება.",image:"https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/4a3b400a2814fdb0adf1b1792cbdd65e64d78273.jpg",category:"tools"},
+    {id:95,en:"Wheelbarrow",ka:"ტაჩკა",desc:"ერთთვლიანი ხელსაწყო მასალების გადასატანად მშენებლობაზე.",image:"https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/77ef213b4b6ad7d39fcd0ad3b121bf6de524f50f.jpg",category:"tools"},
+    {id:96,en:"Trowel",ka:"შპატელი",desc:"ხელსაწყო ხსნარის, ბეტონის ან შტუკატურის გასასწორებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"tools"},
+    {id:97,en:"Float",ka:"გლუვი შპატელი",desc:"ხელსაწყო ბეტონის ან შტუკატურის ზედაპირის გასასწორებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"tools"},
+    {id:98,en:"Level",ka:"საწოლი",desc:"ხელსაწყო ზედაპირის ჰორიზონტალურობისა და ვერტიკალურობის შესამოწმებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.johnsonlevel.com/d3e8fd38e33fb72198b2115257b542173c3ed328.jpg",category:"tools"},
+    {id:99,en:"Laser Level",ka:"ლაზერული საწოლი",desc:"ელექტრონული მოწყობილობა ზუსტი ჰორიზონტალური და ვერტიკალური ხაზებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.engineersupply.com/faff23793c45db3bdeb289b86773a14d661713c5.jpg",category:"tools"},
+    {id:100,en:"Theodolite",ka:"თეოდოლიტი",desc:"საზომი ხელსაწყო კუთხეებისა და მანძილების საზომად.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"tools"},
+    {id:101,en:"Total Station",ka:"ტოტალური სადგური",desc:"ელექტრონული საზომი მოწყობილობა მანძილებისა და კუთხეების დასათვლელად.",image:"https://kimi-web-img.moonshot.cn/img/www.engineersupply.com/faff23793c45db3bdeb289b86773a14d661713c5.jpg",category:"tools"},
+    {id:102,en:"Tape Measure",ka:"საზომი ლენტი",desc:"გრაფირებული ლენტი მანძილების სასაზომად.",image:"https://kimi-web-img.moonshot.cn/img/www.johnsonlevel.com/d3e8fd38e33fb72198b2115257b542173c3ed328.jpg",category:"tools"},
+    {id:103,en:"Hammer",ka:"ჩაქუჩი",desc:"ხელსაწყო ლურსმნების ჩასასმელად ან მასალების დასარტყმელად.",image:"https://kimi-web-img.moonshot.cn/img/m.media-amazon.com/512edb1a21ac40bbd74a6a52592434ad790511b6.jpg",category:"tools"},
+    {id:104,en:"Screwdriver",ka:"სახრახნისი",desc:"ხელსაწყო ხრახნების შესაჭერად და გასახსნელად.",image:"https://kimi-web-img.moonshot.cn/img/wpcharming.com/25db10fa888c1d255d20c9e4522c8a156fb0a532.png",category:"tools"},
+    {id:105,en:"Wrench",ka:"ქანჩის გასაღები",desc:"ხელსაწყო ქანჩებისა და თავაკების შესაჭერად.",image:"https://kimi-web-img.moonshot.cn/img/i.ebayimg.com/38cee531818cc6bd20d21ea38865c80c2090d03a.JPG",category:"tools"},
+    {id:106,en:"Pliers",ka:"პასატები",desc:"ხელსაწყო მავთულებისა და პატარა ნივთების დასაჭერად.",image:"https://kimi-web-img.moonshot.cn/img/i.ebayimg.com/38cee531818cc6bd20d21ea38865c80c2090d03a.JPG",category:"tools"},
+    {id:107,en:"Saw",ka:"ხერხი",desc:"ხელსაწყო ხის, მეტალის ან სხვა მასალების სასაჭრელად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"tools"},
+    {id:108,en:"Circular Saw",ka:"დისკური ხერხი",desc:"ელექტრო ხერხი მრგვალი დისკით სწრაფად სასაჭრელად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"tools"},
+    {id:109,en:"Jigsaw",ka:"ლობზიკი",desc:"ელექტრო ხერხი მრუდი ხაზების სასაჭრელად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"tools"},
+    {id:110,en:"Drill",ka:"ბურღი",desc:"ხელსაწყო ხვრელების გასაკეთებლად.",image:"https://kimi-web-img.moonshot.cn/img/image.made-in-china.com/870d75f197662656467f5c4a0c2e88f847f45595.webp",category:"tools"},
+    {id:111,en:"Impact Drill",ka:"დარტყმითი ბურღი",desc:"ბურღი, რომელიც დარტყმით მოძრაობას ახდენს ბეტონში ხვრელის გასაკეთებლად.",image:"https://kimi-web-img.moonshot.cn/img/image.made-in-china.com/870d75f197662656467f5c4a0c2e88f847f45595.webp",category:"tools"},
+    {id:112,en:"Angle Grinder",ka:"ბარგალკა",desc:"ელექტრო ხელსაწყო მრგვალი დისკით მასალების სასაჭრელად ან საპრიალებლად.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"tools"},
+    {id:113,en:"Welding Machine",ka:"შედუღების აპარატი",desc:"მოწყობილობა მეტალის ნაწილების შესაერთებლად მაღალი ტემპერატურით.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"tools"},
+    {id:114,en:"Paint Sprayer",ka:"საღებავის ფუნთუშა",desc:"მოწყობილობა საღებავის სწრაფად და თანაბრად დასასხმელად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"tools"},
+    {id:115,en:"Air Compressor",ka:"ჰაერის კომპრესორი",desc:"მოწყობილობა ჰაერის შეკუმშვისთვის პნევმატური ხელსაწყოებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"tools"},
+    {id:116,en:"Generator",ka:"გენერატორი",desc:"მოწყობილობა ელექტროენერგიის წარმოებისთვის მშენებლობაზე.",image:"https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/4a3b400a2814fdb0adf1b1792cbdd65e64d78273.jpg",category:"tools"},
+    {id:117,en:"Concrete Vibrator",ka:"ბეტონის ვიბრატორი",desc:"მოწყობილობა ბეტონიდან ჰაერის ბუშტების გამოსაშვებად.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"tools"},
+    {id:118,en:"Power Trowel",ka:"მექანიკური შპატელი",desc:"მოტორიზებული შპატელი დიდი ფართობის ბეტონის გასასწორებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"tools"},
+    {id:119,en:"Forklift",ka:"კარის ტრაქტორი",desc:"მობილური მანქანა მძიმე ტვირთის ასასაწევად და გადასაადგილებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/4a3b400a2814fdb0adf1b1792cbdd65e64d78273.jpg",category:"tools"},
+    {id:120,en:"Concrete Mixer Truck",ka:"ბეტონის მიქსერის მანქანა",desc:"მობილური მიქსერი ბეტონის შესაზავად და ტრანსპორტირებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/4a3b400a2814fdb0adf1b1792cbdd65e64d78273.jpg",category:"tools"},
+    {id:121,en:"Excavation",ka:"გათხრა",desc:"მიწის ამოთხრა საძირკვლის ან საკომუნიკაციო ორმოსთვის.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/99e8a53c54372f83648ff6b07bcbed30741e43a7.jpg",category:"processes"},
+    {id:122,en:"Earthwork",ka:"მიწის სამუშაო",desc:"მიწის გათხრა, დაყრა და დაკომპაქტება მშენებლობისთვის.",image:"https://kimi-web-img.moonshot.cn/img/rrmachinery.sg/d24afe4d423bc7eb5d6efb9d2568c32167fc1194.webp",category:"processes"},
+    {id:123,en:"Foundation Work",ka:"საძირკვლის მუშაობა",desc:"საძირკვლის აგება შენობის წონის მიწაზე გადასატანად.",image:"https://kimi-web-img.moonshot.cn/img/www.cpcs-training-courses.co.uk/078a0a3e7c2d4e5b0a2fcbd163f65e9c00f07161.jpg",category:"processes"},
+    {id:124,en:"Formwork Erection",ka:"ოპალუბკის მონტაჟი",desc:"დროებითი ფორმების აწყობა ბეტონის ჩასასხმელად.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/8a31540f5e0a08d92445f62defa31125cb4b5ae4.jpg",category:"processes"},
+    {id:125,en:"Rebar Placement",ka:"არმატურის განლაგება",desc:"არმატურის ზოლების დაჭერა, მოხრა და დამაგრება ბეტონში.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"processes"},
+    {id:126,en:"Concrete Pouring",ka:"ბეტონის ჩასხმა",desc:"ბეტონის თხევადი მასის ჩასხმა ოპალუბკაში.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"processes"},
+    {id:127,en:"Curing",ka:"მომწიფება",desc:"ბეტონის ტენიანობის შენარჩუნება და დაცვა მაქსიმალური სიმტკიცის მისაღწევად.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"processes"},
+    {id:128,en:"Stripping Formwork",ka:"ოპალუბკის დემონტაჟი",desc:"დროებითი ფორმების მოხსნა ბეტონის გამყარების შემდეგ.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/8a31540f5e0a08d92445f62defa31125cb4b5ae4.jpg",category:"processes"},
+    {id:129,en:"Masonry",ka:"ქვის/აგურის მუშაობა",desc:"აგურების ან ქვების ხსნარით შედგმა კედლების ასაშენებლად.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"processes"},
+    {id:130,en:"Bricklaying",ka:"აგურის დაწყობა",desc:"აგურების ხსნარით ერთმანეთზე დაწყობა კედლის ასაშენებლად.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"processes"},
+    {id:131,en:"Plastering",ka:"შტუკატურება",desc:"ხსნარის დაფენა კედლებისა და ჭერის ზედაპირებზე გასასწორებლად.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"processes"},
+    {id:132,en:"Tiling",ka:"ფილების დაფენა",desc:"კერამიკული ან სხვა ფილების დაფენა იატაკზე ან კედლებზე.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"processes"},
+    {id:133,en:"Painting",ka:"ღებვა",desc:"საღებავის დაფენა ზედაპირებზე დასაცავად და დეკორატიული მიზნით.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"processes"},
+    {id:134,en:"Waterproofing",ka:"ჰიდროიზოლაცია",desc:"ზედაპირის დაცვა წყლის შეღწევისგან სპეციალური მასალებით.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"processes"},
+    {id:135,en:"Insulation Work",ka:"იზოლაციის მუშაობა",desc:"თბო- ან ხმაიზოლაციის მასალების დაფენა კედლებზე, ჭერსა და იატაკზე.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"processes"},
+    {id:136,en:"Roofing",ka:"სახურავის მოწყობა",desc:"სახურავის საფარის დაფენა ან ფილების დაგება წყალგაუმტარი საფარის შესაქმნელად.",image:"https://kimi-web-img.moonshot.cn/img/newindscorp.com/5adf86c6cff4aa58fde829ed3fd6665af22d49d2.jpg",category:"processes"},
+    {id:137,en:"Glazing",ka:"მინის დამონტაჟება",desc:"ფანჯრებისა და ვიტრაჟების მინის ჩადგმა.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"processes"},
+    {id:138,en:"Electrical Installation",ka:"ელექტროგაყვანილობა",desc:"ელექტროსადენების, გადამრთველებისა და როზეტების მონტაჟი.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"processes"},
+    {id:139,en:"Plumbing",ka:"სანტექნიკა",desc:"წყლისა და კანალიზაციის მილების გაყვანა და მონტაჟი.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"processes"},
+    {id:140,en:"HVAC Installation",ka:"გათბობა-გაგრილების მონტაჟი",desc:"გათბობის, ვენტილაციისა და კონდიცირების სისტემების დამონტაჟება.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"processes"},
+    {id:141,en:"Drywall Installation",ka:"გიფსოკარტონის მონტაჟი",desc:"გიფსოკარტონის ფილების დაფენა შიდა გაყოფისა და ჭერისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"processes"},
+    {id:142,en:"Flooring",ka:"იატაკის მოწყობა",desc:"იატაკის საფარის დაფენა (ლამინატი, პარკეტი, ფილა და სხვა).",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"processes"},
+    {id:143,en:"Scaffolding Erection",ka:"ლესავის აწყობა",desc:"დროებითი საყრდენი სტრუქტურის მონტაჟი მაღალ სამუშაოებზე მუშაობისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"processes"},
+    {id:144,en:"Demolition",ka:"დემონტაჟი",desc:"ძველი შენობის ან სტრუქტურის დანგრევა და მოხსნა.",image:"https://kimi-web-img.moonshot.cn/img/image.made-in-china.com/870d75f197662656467f5c4a0c2e88f847f45595.webp",category:"processes"},
+    {id:145,en:"Site Preparation",ka:"მოედნის მომზადება",desc:"მიწის გასუფთავება, გათხრა და დაკომპაქტება მშენებლობის დაწყებამდე.",image:"https://kimi-web-img.moonshot.cn/img/rrmachinery.sg/d24afe4d423bc7eb5d6efb9d2568c32167fc1194.webp",category:"processes"},
+    {id:146,en:"Grading",ka:"დახრის მიცემა",desc:"მიწის ზედაპირის დონის რეგულირება წყლის ჩასასვლელად.",image:"https://kimi-web-img.moonshot.cn/img/rrmachinery.sg/d24afe4d423bc7eb5d6efb9d2568c32167fc1194.webp",category:"processes"},
+    {id:147,en:"Compaction",ka:"კომპაქტაცია",desc:"მიწის ან ასფალტის შეკუმშვა მაქსიმალური სიმკვრივის მისაღწევად.",image:"https://kimi-web-img.moonshot.cn/img/rrmachinery.sg/d24afe4d423bc7eb5d6efb9d2568c32167fc1194.webp",category:"processes"},
+    {id:148,en:"Surveying",ka:"გეოდეზია",desc:"მიწის ზედაპირის ზომვა და ნიშნულების დადგენა მშენებლობისთვის.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"processes"},
+    {id:149,en:"Soil Testing",ka:"მიწის ტესტირება",desc:"მიწის სიმტკიცისა და დატვირთვის ტევადობის შემოწმება.",image:"https://kimi-web-img.moonshot.cn/img/jonochshorn.com/1cab88c17f8afcb0e33a01114cb50f1663e33123.png",category:"processes"},
+    {id:150,en:"Concrete Testing",ka:"ბეტონის ტესტირება",desc:"ბეტონის სიმტკიცისა და ხარისხის შემოწმება სტანდარტული მეთოდებით.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"processes"},
+    {id:151,en:"Steel Erection",ka:"ფოლადის კონსტრუქციის მონტაჟი",desc:"ფოლადის სვეტების, ბალკებისა და ფერმების აწყობა.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"processes"},
+    {id:152,en:"Welding",ka:"შედუღება",desc:"მეტალის ნაწილების შეერთება მაღალი ტემპერატურით დნობის გზით.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"processes"},
+    {id:153,en:"Cutting",ka:"ჭრა",desc:"მასალების (ხე, მეტალი, ბეტონი) საჭრელი ხელსაწყოებით დაყოფა.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"processes"},
+    {id:154,en:"Grinding",ka:"პრიალება",desc:"ზედაპირის გასწორება და გაპრიალება საპრიალებელი დისკით.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"processes"},
+    {id:155,en:"Drilling",ka:"ბურღვა",desc:"ხვრელების გაკეთება ბეტონში, მეტალში ან ხეში საკონდუქტორების ან ბოლტებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/image.made-in-china.com/870d75f197662656467f5c4a0c2e88f847f45595.webp",category:"processes"},
+    {id:156,en:"Anchoring",ka:"დამაგრება",desc:"სტრუქტურული ელემენტების ბეტონში ან მიწაში დამაგრება სპეციალური ბოლტებით.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"processes"},
+    {id:157,en:"Grouting",ka:"ინექცია",desc:"ხსნარის ჩასხმა ნაკერებში ან ცარიელ სივრცეებში გამაგრებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"processes"},
+    {id:158,en:"Caulking",ka:"ჰერმეტიზაცია",desc:"ნაკერებისა და ნაპრალების დალუქვა სპეციალური მასალით.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"processes"},
+    {id:159,en:"Architect",ka:"არქიტექტორი",desc:"სპეციალისტი, რომელიც შენობების დიზაინს, გეგმას და ფასადს ქმნის.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:160,en:"Civil Engineer",ka:"სამოქალაქო ინჟინერი",desc:"ინჟინერი, რომელიც შენობების, ხიდებისა და გზების პროექტირებას ახორციელებს.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:161,en:"Structural Engineer",ka:"სტრუქტურული ინჟინერი",desc:"ინჟინერი, რომელიც შენობის სტრუქტურულ გათვლებს აკეთებს.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/04e7f131d6c7de62070fde6be4f45f86087e1416.webp",category:"professions"},
+    {id:162,en:"Construction Manager",ka:"მშენებლობის მენეჯერი",desc:"პირი, რომელიც მშენებლობის პროცესს ხელმძღვანელობს და აკონტროლებს.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:163,en:"Site Supervisor",ka:"ობიექტის უფროსი",desc:"პირი, რომელიც მშენებლობის ყოველდღიურ სამუშაოებს აკონტროლებს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"professions"},
+    {id:164,en:"Foreman",ka:"მასტერი",desc:"გამოცდილი მუშა, რომელიც მშენებლობის ჯგუფს ხელმძღვანელობს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"professions"},
+    {id:165,en:"Quantity Surveyor",ka:"კალკულატორი",desc:"სპეციალისტი, რომელიც მასალების რაოდენობასა და ღირებულებას გამოითვლის.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:166,en:"Project Manager",ka:"პროექტის მენეჯერი",desc:"სპეციალისტი, რომელიც მთელს პროექტს — ბიუჯეტს, ვადებს და რესურსებს — მართავს.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:167,en:"Estimator",ka:"კოსტინგის სპეციალისტი",desc:"სპეციალისტი, რომელიც მშენებლობის ღირებულებას პროექტის დაწყებამდე გამოითვლის.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:168,en:"Surveyor",ka:"გეოდეზისტი",desc:"სპეციალისტი, რომელიც მიწის ზედაპირს გაზომავს და ნიშნულებს ადგენს.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:169,en:"Mason",ka:"ქვის მშენებელი",desc:"სპეციალისტი, რომელიც აგურის, ქვის ან ბლოკის კედლებს აშენებს.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"professions"},
+    {id:170,en:"Carpenter",ka:"დურგალი",desc:"ხის მშრომელი, რომელიც კონსტრუქციებს, კარებსა და ფანჯრებს ამზადებს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/8300dccfb3c14cb727c3b8a989ce95eef9d7b992.jpg",category:"professions"},
+    {id:171,en:"Electrician",ka:"ელექტრიკოსი",desc:"სპეციალისტი ელექტროგაყვანილობის დაყენებისა და შეკეთებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:172,en:"Plumber",ka:"სანტექნიკოსი",desc:"სპეციალისტი წყლის, გათბობისა და კანალიზაციის სისტემებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"professions"},
+    {id:173,en:"HVAC Technician",ka:"HVAC ტექნიკოსი",desc:"სპეციალისტი გათბობის, ვენტილაციისა და კონდიცირების სისტემებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"professions"},
+    {id:174,en:"Welder",ka:"მშედუღებელი",desc:"სპეციალისტი, რომელიც მეტალის ნაწილებს აერთიანებს შედუღებით.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"professions"},
+    {id:175,en:"Roofer",ka:"სახურავის მწყობელი",desc:"სპეციალისტი, რომელიც სახურავის საფარის დაგებას ახორციელებს.",image:"https://kimi-web-img.moonshot.cn/img/newindscorp.com/5adf86c6cff4aa58fde829ed3fd6665af22d49d2.jpg",category:"professions"},
+    {id:176,en:"Painter",ka:"მხატვარი (ღებვის სპეციალისტი)",desc:"სპეციალისტი, რომელიც შენობის შიდა და გარე ზედაპირებს ღებავს.",image:"https://kimi-web-img.moonshot.cn/img/www.ultratechcement.com/c6588521c188b3721c164d95fe3983a49348cc81.jpg",category:"professions"},
+    {id:177,en:"Tiler",ka:"ფილების მწყობელი",desc:"სპეციალისტი, რომელიც კერამიკულ ან სხვა ფილებს აგებს.",image:"https://kimi-web-img.moonshot.cn/img/abbotbuilding.com/80d70efea6e7f27902f75c2906e37951ece149da.jpg",category:"professions"},
+    {id:178,en:"Steel Fixer",ka:"არმატურის მომუშავე",desc:"სპეციალისტი, რომელიც არმატურას აჭრის, მოხრის და ალაგებს.",image:"https://kimi-web-img.moonshot.cn/img/www.servicesteel.org/65459ee3dd89d75d1b22e8a1fd2261f92171e746.jpg",category:"professions"},
+    {id:179,en:"Concrete Worker",ka:"ბეტონის მუშა",desc:"სპეციალისტი, რომელიც ბეტონის ჩასხმას, გასწორებას და ვიბრაციას ახორციელებს.",image:"https://kimi-web-img.moonshot.cn/img/www.powerblanket.com/722c8c9c42dfaf88d476478bc00241714314f7e6.jpg",category:"professions"},
+    {id:180,en:"Crane Operator",ka:"ატლის მძღოლი",desc:"სპეციალისტი, რომელიც ატლს მართავს მძიმე ტვირთის ასაწევად.",image:"https://kimi-web-img.moonshot.cn/img/iirorwxhjiorli5q.ldycdn.com/365c557e5b95b3acadff20bcfd82c8e378ae5769.jpg",category:"professions"},
+    {id:181,en:"Excavator Operator",ka:"ექსკავატორის მძღოლი",desc:"სპეციალისტი, რომელიც ექსკავატორს მართავს მიწის გათხრისთვის.",image:"https://kimi-web-img.moonshot.cn/img/sanyglobal-img.sany.com.cn/0e7e18fb1ac14039f3a7ca799330d4eebbd3f426.png",category:"professions"},
+    {id:182,en:"Safety Officer",ka:"უსაფრთხოების ოფიცერი",desc:"პირი, რომელიც მშენებლობაზე უსაფრთხოების წესებს აკონტროლებს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"professions"},
+    {id:183,en:"Building Inspector",ka:"შენობის ინსპექტორი",desc:"სპეციალისტი, რომელიც მშენებლობის ხარისხსა და სტანდარტებს ამოწმებს.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"professions"},
+    {id:184,en:"Landscaper",ka:"ლანდშაფტის დიზაინერი",desc:"სპეციალისტი, რომელიც გარე ტერიტორიის დაგეგმვას და მოწყობას ახორციელებს.",image:"https://kimi-web-img.moonshot.cn/img/rrmachinery.sg/d24afe4d423bc7eb5d6efb9d2568c32167fc1194.webp",category:"professions"},
+    {id:185,en:"Interior Designer",ka:"ინტერიერის დიზაინერი",desc:"სპეციალისტი, რომელიც შენობის შიდა სივრცის დიზაინს ქმნის.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/dc34ef4633531c8f511bffc02891a9fc827467ca.jpg",category:"professions"},
+    {id:186,en:"Drafter",ka:"ნახაზის შემსრულებელი",desc:"სპეციალისტი, რომელიც არქიტექტორისა და ინჟინერის ჩანახატებს ტექნიკურ ნახაზებად აქცევს.",image:"https://kimi-web-img.moonshot.cn/img/scottsimpsondesignbuild.com/8cf8725d830c88fd1b29f1203be6fa570f8eb3ed.png",category:"professions"},
+    {id:187,en:"BIM Modeler",ka:"BIM მოდელირების სპეციალისტი",desc:"სპეციალისტი, რომელიც შენობის 3D ციფრულ მოდელს ქმნის.",image:"https://kimi-web-img.moonshot.cn/img/scottsimpsondesignbuild.com/8cf8725d830c88fd1b29f1203be6fa570f8eb3ed.png",category:"professions"},
+    {id:188,en:"Geotechnical Engineer",ka:"გეოტექნიკოსი",desc:"ინჟინერი, რომელიც მიწის თვისებებსა და საძირკვლის სტაბილურობას სწავლობს.",image:"https://kimi-web-img.moonshot.cn/img/jonochshorn.com/1cab88c17f8afcb0e33a01114cb50f1663e33123.png",category:"professions"},
+    {id:189,en:"Environmental Engineer",ka:"გარემოს დამცველი ინჟინერი",desc:"ინჟინერი, რომელიც მშენებლობის გარემოზე ზემოქმედებას აფასებს.",image:"https://kimi-web-img.moonshot.cn/img/rrmachinery.sg/d24afe4d423bc7eb5d6efb9d2568c32167fc1194.webp",category:"professions"},
+    {id:190,en:"Personal Protective Equipment (PPE)",ka:"ინდივიდუალური დაცვის საშუალებები",desc:"ჩაფხუტი, სათვალე, ხელთათმანი და სხვა საშუალებები მუშის დასაცავად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:191,en:"Hard Hat",ka:"ჩაფხუტი",desc:"მაგარი ჩაფხუტი თავის დასაცავად დავარდნილი ნივთებისგან.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"safety"},
+    {id:192,en:"Safety Glasses",ka:"დამცავი სათვალე",desc:"სათვალე თვალების დასაცავად მტვრის, ნაწილაკებისა და ქიმიკატებისგან.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"safety"},
+    {id:193,en:"Safety Boots",ka:"დამცავი ფეხსაცმელი",desc:"ფოლადის ძირითა ფეხსაცმელი ფეხის დასაცავად დავარდნილი ნივთებისა და ნემსებისგან.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:194,en:"High-Visibility Vest",ka:"ნათელი ჟილეტი",desc:"ნათელი ფერის ჟილეტი მუშის ხილვადობის გასაზრდელად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:195,en:"Safety Harness",ka:"დამცავი საქანელა",desc:"სისტემა, რომელიც მუშას მაღალ სიმაღლეზე აფიქსირებს და დაცემისგან იცავს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:196,en:"Fall Protection",ka:"დაცემისგან დაცვა",desc:"სისტემები და მოწყობილობები მაღალ სიმაღლეზე მუშაობისას დაცემის თავიდან ასაცილებლად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:197,en:"Guardrail",ka:"დამცავი ღობე",desc:"ღობე ან ბარიერი საფეხურებზე, პლატფორმებზე და სახურავებზე დასაცავად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:198,en:"Safety Net",ka:"დამცავი ბადე",desc:"ბადე მუშების ან ნივთების დასაჭერად დაცემის შემთხვევაში.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:199,en:"Scaffolding Tag",ka:"ლესავის ნიშანი",desc:"ფირფიტა, რომელიც აჩვენებს ლესავის შემოწმების სტატუსს და დაშვებას.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:200,en:"Lockout/Tagout",ka:"ჩაკეტვა/ნიშნულის დადგენა",desc:"პროცედურა ელექტრო ან მექანიკური მოწყობილობების გათიშვისა და დაბლოკვისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:201,en:"First Aid Kit",ka:"სასწრაფო დახმარების ყუთი",desc:"ყუთი მედიკამენტებითა და მასალებით უბედურ შემთხვევაში პირველი დახმარებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:202,en:"Fire Extinguisher",ka:"ცეცხლმაქრი",desc:"მოწყობილობა ცეცხლის ჩასაქრობად სამშენებლო მოედანზე.",image:"https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/cc4e733fb49e1305bdc35a9b8f55adeb7227096c.jpg",category:"safety"},
+    {id:203,en:"Emergency Exit",ka:"სასწრაფო გასასვლელი",desc:"განსაზღვრული გზა შენობიდან საგანგებო შემთხვევაში სასწრაფო გასასვლელად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:204,en:"Assembly Point",ka:"შეკრების ადგილი",desc:"განსაზღვრული ადგილი შენობიდან გასვლის შემდეგ მუშების შესაკრებად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:205,en:"Hazard Sign",ka:"საფრთხის ნიშანი",desc:"ფერადი ნიშანი ან ფირფიტა, რომელიც საფრთხეს აფრთხილებს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:206,en:"Warning Tape",ka:"გაფრთხილების ლენტი",desc:"ყვითელი ან წითელი ლენტი საფრთხის ზონის გასაფრთხილებლად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:207,en:"Dust Mask",ka:"მტვრის ნიღაბი",desc:"ნიღაბი სუნთქვის დასაცავად მტვრისა და ნაწილაკებისგან.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"safety"},
+    {id:208,en:"Respirator",ka:"რესპირატორი",desc:"მოწყობილობა სუნთქვის დასაცავად ტოქსიკური აირებისა და მტვრისგან.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"safety"},
+    {id:209,en:"Ear Protection",ka:"სმენის დაცვა",desc:"საყურეები ან ჩაჩები ხმაურისგან სმენის დასაცავად.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"safety"},
+    {id:210,en:"Eye Wash Station",ka:"თვალის გამწმენდი სადგური",desc:"სპეციალური სადგური ქიმიკატების მოხვედრისას თვალის სასწრაფოდ გასაწმენდად.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"safety"},
+    {id:211,en:"Shower Station",ka:"სასწრაფო საშხაპე",desc:"სპექტრული საშხაპე ქიმიკატების მოხვედრისას სხეულის სასწრაფოდ გასაწმენდად.",image:"https://kimi-web-img.moonshot.cn/img/cdn.britannica.com/29670015996247a10ef5cb7069eb05cde29c0a17.jpg",category:"safety"},
+    {id:212,en:"Crane Safety Zone",ka:"ატლის უსაფრთხო ზონა",desc:"განსაზღვრული ტერიტორია ატლის მოძრაობის არეალში დაცემის საფრთხისგან.",image:"https://kimi-web-img.moonshot.cn/img/iirorwxhjiorli5q.ldycdn.com/365c557e5b95b3acadff20bcfd82c8e378ae5769.jpg",category:"safety"},
+    {id:213,en:"Excavation Safety",ka:"გათხრის უსაფრთხოება",desc:"წესები და მოწყობილობები ორმოს ჩაქცევისგან დასაცავად.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/99e8a53c54372f83648ff6b07bcbed30741e43a7.jpg",category:"safety"},
+    {id:214,en:"Trench Box",ka:"ორმოს დამცავი ყუთი",desc:"მეტალის ყუთი ორმოს კედლების გასამაგრებლად და მუშების დასაცავად.",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/99e8a53c54372f83648ff6b07bcbed30741e43a7.jpg",category:"safety"},
+    {id:215,en:"Confined Space",ka:"შეზღუდული სივრცე",desc:"განსაზღვრული სივრცე, სადაც შესვლა საფრთხის შემცველია (სარდაფი, ჭა, რეზერვუარი).",image:"https://kimi-web-img.moonshot.cn/img/i0.wp.com/99e8a53c54372f83648ff6b07bcbed30741e43a7.jpg",category:"safety"},
+    {id:216,en:"Permit to Work",ka:"სამუშაოს ნებართვა",desc:"დოკუმენტი, რომელიც ადასტურებს საფრთხის შეფასებას და უსაფრთხოების ზომების მიღებას.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:217,en:"Risk Assessment",ka:"რისკის შეფასება",desc:"პროცესი, რომელიც იმეორებს საფრთხეებს და გზებს მათი შემცირებისთვის.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:218,en:"Toolbox Talk",ka:"ინსტრუქტაჟი",desc:"მოკლე შეხვედრა მუშებთან მშენებლობის დაწყებამდე უსაფრთხოების წესების გასაცნობად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:219,en:"Incident Report",ka:"შემთხვევის ანგარიში",desc:"დოკუმენტი, რომელიც ფიქსირებს უბედურ შემთხვევას ან ავარიას მშენებლობაზე.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:220,en:"Near Miss",ka:"თავის არიდება",desc:"შემთხვევა, რომელიც შეიძლებოდა ავარია ყოფილიყო, მაგრამ თავი აირიდეს.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+    {id:221,en:"Accident Investigation",ka:"ავარიის გამოძიება",desc:"პროცესი ავარიის მიზეზების დასადგენად და მომავალში თავიდან ასაცილებლად.",image:"https://kimi-web-img.moonshot.cn/img/c8.alamy.com/16ca0816fac03332ec559cd0e7c73b456c6dd00c.jpg",category:"safety"},
+];
+
+const categoryNames = {
+    all: 'ყველა',
+    structure: 'სტრუქტურა',
+    materials: 'მასალები',
+    tools: 'ხელსაწყოები',
+    processes: 'პროცესები',
+    professions: 'პროფესიები',
+    safety: 'უსაფრთხოება'
+};
+
+const categoryColors = {
+    structure: '#1a5f7a',
+    materials: '#7c3aed',
+    tools: '#dc2626',
+    processes: '#059669',
+    professions: '#d97706',
+    safety: '#be123c'
+};
+
+let currentCategory = 'all';
+let searchTerm = '';
+
+function renderCategories() {
+    const counts = {};
+    vocabulary.forEach(v => {
+        counts[v.category] = (counts[v.category] || 0) + 1;
+    });
+
+    const container = document.getElementById('categoryButtons');
+    let html = `<button class="cat-btn ${currentCategory === 'all' ? 'active' : ''}" onclick="setCategory('all')">ყველა<span class="count">${vocabulary.length}</span></button>`;
+
+    Object.keys(categoryNames).forEach(cat => {
+        if (cat !== 'all') {
+            html += `<button class="cat-btn ${currentCategory === cat ? 'active' : ''}" onclick="setCategory('${cat}')">${categoryNames[cat]}<span class="count">${counts[cat] || 0}</span></button>`;
+        }
+    });
+
+    container.innerHTML = html;
+}
+
+function setCategory(cat) {
+    currentCategory = cat;
+    renderCategories();
+    renderCards();
+}
+
+function renderCards() {
+    const grid = document.getElementById('grid');
+    const stats = document.getElementById('stats');
+
+    let filtered = vocabulary.filter(v => {
+        const matchCat = currentCategory === 'all' || v.category === currentCategory;
+        const matchSearch = !searchTerm || 
+            v.en.toLowerCase().includes(searchTerm.toLowerCase()) || 
+            v.ka.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            v.desc.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchCat && matchSearch;
+    });
+
+    stats.innerHTML = `<span>მოიძებნა ${filtered.length} ტერმინი</span><span>🇬🇪 ↔ 🇺🇸</span>`;
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">🔍</div>
+                <h3>არაფერი მოიძებნა</h3>
+                <p>სცადეთ სხვა საძიებო სიტყვა ან კატეგორია</p>
+            </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = filtered.map((v, idx) => `
+        <div class="card" style="animation-delay: ${idx * 0.03}s">
+            <div class="card-image">
+                ${v.image ? `<img src="${v.image}" alt="${v.en}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'placeholder\'>🏗️</span>'">` : '<span class="placeholder">🏗️</span>'}
+                <span class="card-category" style="background: ${categoryColors[v.category] || '#e76f51'}">${categoryNames[v.category]}</span>
+            </div>
+            <div class="card-body">
+                <div class="card-title">${v.en}</div>
+                <div class="card-translation">${v.ka}</div>
+                <div class="card-desc">${v.desc}</div>
+                <div class="card-id">#${v.id} • ${categoryNames[v.category]}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    searchTerm = e.target.value;
+    renderCards();
+});
+
+window.addEventListener('scroll', () => {
+    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 500);
+});
+
+renderCategories();
+renderCards();
+    
+
+// ==================== QUIZ FUNCTIONALITY ====================
+const QUIZ_LENGTH = 20;
+let quizQuestions = [];
+let currentQuestionIndex = 0;
+let quizScore = 0;
+let quizAnswers = [];
+let quizStartTime = null;
+
+function openQuiz() {
+    document.getElementById('quizOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    showQuizStart();
+}
+
+function closeQuiz() {
+    document.getElementById('quizOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    resetQuiz();
+}
+
+function resetQuiz() {
+    quizQuestions = [];
+    currentQuestionIndex = 0;
+    quizScore = 0;
+    quizAnswers = [];
+    quizStartTime = null;
+}
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function generateQuizQuestions() {
+    const shuffled = shuffleArray(vocabulary);
+    const selected = shuffled.slice(0, QUIZ_LENGTH);
+
+    quizQuestions = selected.map((item) => {
+        const types = ['en_to_ka', 'ka_to_en', 'desc_to_term'];
+        const type = types[Math.floor(Math.random() * types.length)];
+
+        let question, correctAnswer, options;
+
+        if (type === 'en_to_ka') {
+            question = 'რა არის "' + item.en + '" ქართულად?';
+            correctAnswer = item.ka;
+            const wrongPool = vocabulary.filter(v => v.id !== item.id);
+            const wrong = shuffleArray(wrongPool).slice(0, 3).map(v => v.ka);
+            options = shuffleArray([correctAnswer, ...wrong]);
+        } else if (type === 'ka_to_en') {
+            question = 'რა არის "' + item.ka + '" ინგლისურად?';
+            correctAnswer = item.en;
+            const wrongPool = vocabulary.filter(v => v.id !== item.id);
+            const wrong = shuffleArray(wrongPool).slice(0, 3).map(v => v.en);
+            options = shuffleArray([correctAnswer, ...wrong]);
+        } else {
+            question = 'რომელი ტერმინი შეესაბამება აღწერილობას:<br><em style="color:var(--text-light);font-size:0.95rem;">"' + item.desc.substring(0, 120) + '..."</em>';
+            correctAnswer = item.ka;
+            const wrongPool = vocabulary.filter(v => v.id !== item.id);
+            const wrong = shuffleArray(wrongPool).slice(0, 3).map(v => v.ka);
+            options = shuffleArray([correctAnswer, ...wrong]);
+        }
+
+        return {
+            id: item.id,
+            type: type,
+            question: question,
+            correct: correctAnswer,
+            options: options,
+            en: item.en,
+            ka: item.ka,
+            category: item.category
+        };
+    });
+}
+
+function showQuizStart() {
+    const body = document.getElementById('quizBody');
+    body.innerHTML = '<div class="quiz-start">' +
+        '<h3>🏗️ მზად ხარ ტესტისთვის?</h3>' +
+        '<p>შეამოწმე შენი ცოდნა სამშენებლო ტერმინებში!</p>' +
+        '<div class="quiz-rules">' +
+        '<ul style="list-style:none;padding:0;">' +
+        '<li>✅ <strong>' + QUIZ_LENGTH + ' კითხვა</strong> — შემთხვევით შერჩეული ტერმინებიდან</li>' +
+        '<li>✅ <strong>3 ტიპის კითხვა</strong> — ინგლისური→ქართული, ქართული→ინგლისური, აღწერილობა→ტერმინი</li>' +
+        '<li>✅ <strong>4 ვარიანტი</strong> — თითოეულ კითხვაზე</li>' +
+        '<li>✅ <strong>შედეგები</strong> — სწორი პასუხების რაოდენობა და პროცენტულობა</li>' +
+        '<li>✅ ყოველ ახალ ტესტზე <strong>ახალი, შემთხვევითი კითხვები</strong></li>' +
+        '</ul></div>' +
+        '<button class="quiz-nav-btn primary" onclick="startQuiz()" style="font-size:1.1rem;padding:1rem 2.5rem;">' +
+        '🚀 დაიწყე ტესტი</button></div>';
+}
+
+function startQuiz() {
+    generateQuizQuestions();
+    currentQuestionIndex = 0;
+    quizScore = 0;
+    quizAnswers = [];
+    quizStartTime = Date.now();
+    showQuestion();
+}
+
+function showQuestion() {
+    const q = quizQuestions[currentQuestionIndex];
+    const body = document.getElementById('quizBody');
+    const progress = ((currentQuestionIndex + 1) / QUIZ_LENGTH) * 100;
+
+    let optionsHtml = '';
+    for (let i = 0; i < q.options.length; i++) {
+        optionsHtml += '<button class="quiz-option" data-idx="' + i + '" data-ans="' + encodeURIComponent(q.options[i]) + '">' + q.options[i] + '</button>';
+    }
+
+    body.innerHTML = '<div class="quiz-progress">' +
+        '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + progress + '%"></div></div>' +
+        '<div class="quiz-progress-text">' + (currentQuestionIndex + 1) + ' / ' + QUIZ_LENGTH + '</div></div>' +
+        '<div class="quiz-question"><span class="q-num">' + (currentQuestionIndex + 1) + '</span>' + q.question + '</div>' +
+        '<div class="quiz-options" id="quizOptions">' + optionsHtml + '</div>' +
+        '<div class="quiz-feedback" id="quizFeedback"></div>' +
+        '<div class="quiz-nav">' +
+        '<button class="quiz-nav-btn secondary" onclick="closeQuiz()">გამოსვლა</button>' +
+        '<button class="quiz-nav-btn primary" id="nextBtn" onclick="nextQuestion()" disabled>შემდეგი →</button></div>';
+
+    // Add click handlers
+    document.querySelectorAll('.quiz-option').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const answer = decodeURIComponent(this.getAttribute('data-ans'));
+            selectAnswer(answer);
+        });
+    });
+}
+
+function selectAnswer(answer) {
+    const q = quizQuestions[currentQuestionIndex];
+    const options = document.querySelectorAll('.quiz-option');
+    const feedback = document.getElementById('quizFeedback');
+    const nextBtn = document.getElementById('nextBtn');
+
+    options.forEach(opt => opt.classList.add('disabled'));
+
+    const isCorrect = answer === q.correct;
+
+    if (isCorrect) {
+        for (let opt of options) {
+            if (decodeURIComponent(opt.getAttribute('data-ans')) === answer) {
+                opt.classList.add('correct');
+            }
+        }
+        quizScore++;
+        feedback.innerHTML = '<strong>✅ სწორია!</strong> "' + q.en + '" = "' + q.ka + '"';
+        feedback.className = 'quiz-feedback correct show';
+    } else {
+        for (let opt of options) {
+            const optAns = decodeURIComponent(opt.getAttribute('data-ans'));
+            if (optAns === answer) {
+                opt.classList.add('wrong');
+            }
+            if (optAns === q.correct) {
+                opt.classList.add('correct');
+            }
+        }
+        feedback.innerHTML = '<strong>❌ არასწორია.</strong> სწორი პასუხი: "' + q.correct + '"<br><small>' + q.en + ' = ' + q.ka + '</small>';
+        feedback.className = 'quiz-feedback wrong show';
+    }
+
+    quizAnswers.push({
+        question: q.question,
+        selected: answer,
+        correct: q.correct,
+        isCorrect: isCorrect,
+        en: q.en,
+        ka: q.ka
+    });
+
+    nextBtn.disabled = false;
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex >= QUIZ_LENGTH) {
+        showResults();
+    } else {
+        showQuestion();
+    }
+}
+
+function showResults() {
+    const body = document.getElementById('quizBody');
+    const timeSpent = Math.round((Date.now() - quizStartTime) / 1000);
+    const minutes = Math.floor(timeSpent / 60);
+    const seconds = timeSpent % 60;
+    const percentage = Math.round((quizScore / QUIZ_LENGTH) * 100);
+
+    let message = '';
+    if (percentage >= 90) message = '🏆 შესანიშნავი! შენ ნამდვილი პროფესიონალი ხარ!';
+    else if (percentage >= 70) message = '👏 ძალიან კარგი! კარგი შედეგია!';
+    else if (percentage >= 50) message = '👍 არა ცუდი! კიდევ შეგიძლია გაუმჯობესება.';
+    else message = '📚 გაიარე ლექსიკონი და სცადე თავიდან!';
+
+    let answersHtml = '';
+    for (let i = 0; i < quizAnswers.length; i++) {
+        const a = quizAnswers[i];
+        answersHtml += '<div style="padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem;">' +
+            '<span style="color:' + (a.isCorrect ? '#059669' : '#dc2626') + ';">' + (a.isCorrect ? '✅' : '❌') + '</span> ' +
+            '<strong>' + (i+1) + '.</strong> ' + a.en + ' = ' + a.ka +
+            (!a.isCorrect ? '<br><small style="color:var(--text-light);">შენი პასუხი: ' + a.selected + '</small>' : '') +
+            '</div>';
+    }
+
+    body.innerHTML = '<div class="quiz-results">' +
+        '<div class="score-circle" style="--score: ' + percentage + ';">' +
+        '<div class="score-inner">' + percentage + '%<div class="score-label">' + quizScore + '/' + QUIZ_LENGTH + '</div></div></div>' +
+        '<h3>ტესტი დასრულებულია!</h3>' +
+        '<p class="result-msg">' + message + '</p>' +
+        '<div class="result-detail">' +
+        '<div class="result-stat"><div class="num">' + quizScore + '</div><div class="label">სწორი</div></div>' +
+        '<div class="result-stat"><div class="num">' + (QUIZ_LENGTH - quizScore) + '</div><div class="label">არასწორი</div></div>' +
+        '<div class="result-stat"><div class="num">' + minutes + ':' + seconds.toString().padStart(2,'0') + '</div><div class="label">დრო</div></div></div>' +
+        '<div style="margin-bottom:1.5rem;">' +
+        '<button class="quiz-nav-btn primary" onclick="startQuiz()" style="margin-right:0.5rem;">🔄 ახალი ტესტი</button>' +
+        '<button class="quiz-nav-btn secondary" onclick="closeQuiz()">დახურვა</button></div>' +
+        '<div style="text-align:left;background:var(--bg);border-radius:var(--radius-sm);padding:1rem;max-height:200px;overflow-y:auto;">' +
+        '<h4 style="margin-bottom:0.5rem;color:var(--primary-dark);">შენი პასუხები:</h4>' + answersHtml + '</div></div>';
+}
+
+// Close quiz on overlay click
+document.getElementById('quizOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeQuiz();
+});
+
+// Escape key to close quiz
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('quizOverlay').classList.contains('active')) {
+        closeQuiz();
+    }
+});
+
+    </script>
+
+
+    
+
+</body>
+</html>
